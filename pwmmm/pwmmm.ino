@@ -12,7 +12,7 @@ void setup() {
   SetPinFrequencySafe(10, freq);
 
   digitalWrite(9, LOW);
-  pwmWrite(10, 200); // analogWrite 대신에 사용 
+  pwmWrite(10, 100); // analogWrite 대신에 사용 
 
   Serial.begin(9600);
 }

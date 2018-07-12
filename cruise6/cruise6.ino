@@ -52,9 +52,6 @@ void loop() {
       else {
         digitalWrite(6, HIGH);
         vel = (dis - 30) * 10 + 30;
-        
-        
-
         vel = constrain(vel, -255, 255);
       }
     } 

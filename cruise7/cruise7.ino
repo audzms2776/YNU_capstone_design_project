@@ -43,13 +43,14 @@ void loop() {
         
          if(distance>=500)            //500이상이면
          {
-            Serial.println("maual mode ");
+            Serial.println("manual mode ");
+            velo=constrain ( analogRead(A0)/4,-255,255);   //메뉴얼모드
             cnt=cnt+1;
             if(cnt>20)
             {
                cnt=0;
                digitalWrite(6,!digitalRead(6));   //led 깜빡
-               velo=constrain ( analogRead(A0)/4,-255,255);   //메뉴얼모드
+               
             }
          }
          else
@@ -57,12 +58,13 @@ void loop() {
            Serial.println("cruze ");
           velo=constrain( (distance-300)*2,-255,255);}
         
-         if(velo>vel+4)velo=vel+4;      //직진   
-        // if(velo<vel-4)velo=vel-4;      //후진
+         
       }
     
    } 
 
+if(velo>vel+4)velo=vel+4;      //직진   
+        // if(velo<vel-4)velo=vel-4;      //후진
    vel=velo;
    analogWrite(10,velo);
    delay(10);
