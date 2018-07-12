@@ -1,6 +1,6 @@
 int cnt = 30;
-int vel = 0;
-int vel0 = 0;
+int vel;
+int vel0;
 
 
 void setup() {
@@ -18,10 +18,10 @@ void setup() {
     digitalWrite(6, LOW);
     digitalWrite(9, LOW); // 모터 앞으로 
 
-    Serial.begin(9600);
+    Serial.begin(250000);
 }
 
-//
+
 //
 //// 반대로 바꾸면 급정지 방지 
 //if(vel0 > vel +4) {
@@ -51,15 +51,9 @@ void loop() {
       } 
       else {
         digitalWrite(6, HIGH);
-        vel = (dis - 30) * 2;
+        vel = (dis - 30) * 10 + 30;
         
-        if(vel > vel0 + 2) {
-          vel = vel0 + 2;
-        }
-
-        if(vel < vel - 2) {
-          vel = vel0 - 2;
-        }
+        
 
         vel = constrain(vel, -255, 255);
       }
@@ -71,9 +65,17 @@ void loop() {
    }
   }
 
+  if(vel > vel0 ) {
+    vel = vel0 + 3;
+  }
+
+  if(vel < vel) {
+    vel = vel0 - 3;
+  }
+
   Serial.println(vel);
   analogWrite(10, vel);
-  delay(25);
+  delay(10);
   vel0 = vel;
 }
 
@@ -88,7 +90,6 @@ void blinkLED() {
   if(cnt == 0) {
     cnt = 30;
   } 
-
   cnt--;
   digitalWrite(6, cnt < 15);   
 }

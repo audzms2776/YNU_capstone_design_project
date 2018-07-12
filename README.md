@@ -75,6 +75,10 @@ void motor(int vel) {
 
 * cruise6
 ``` C
+
+시리얼 속도 중요함
+Serial.begin(250000);
+
 if(vel > vel0 + 2) {
     vel = vel0 + 2;
 }

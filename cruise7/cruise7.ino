@@ -1,7 +1,7 @@
-
-int vel=0;         //초기값
 int velo=0;
+int vel=0;         //초기값
 int cnt=0;
+
 
 void setup() {
   // put your setup code here, to run once:
@@ -17,7 +17,7 @@ void setup() {
   pinMode(10,OUTPUT);            //모터
   delay(10);
   
-  Serial.begin(9600);
+  Serial.begin(250000);
 }
 
 
@@ -25,53 +25,47 @@ void setup() {
 
 void loop() {
   
+  
    float distance=pulseIn(2,HIGH);
    bool sw=digitalRead(7);   
    distance=distance/10;         
    Serial.print(distance);      //distance=초음파
    Serial.print(" - ");
   
-   if(distance<100) {
-     velo=0;            //거리가 100이하 정지
-   }   else
+   if(distance<100){ velo=0; Serial.println("stop");}           //거리가 100이하 정지
+  
+   else
    {
-      if(sw == LOW)                //스위치가 눌리면
+      if(sw == 0)                //스위치가 눌리면
       {   
          Serial.println("switch on");     //알림
          digitalWrite(6, 1);            //led on
         
-         if(distance>=300)            //1500이상이면
+         if(distance>=500)            //500이상이면
          {
+            Serial.println("maual mode ");
             cnt=cnt+1;
             if(cnt>20)
             {
                cnt=0;
                digitalWrite(6,!digitalRead(6));   //led 깜빡
-               velo=analogRead(A0)/4;   //메뉴얼모드
+               velo=constrain ( analogRead(A0)/4,-255,255);   //메뉴얼모드
             }
          }
          else
-         {  
-           velo=constrain( (distance-100) * 20 + 60, -255, 255);
-         }
+         { 
+           Serial.println("cruze ");
+          velo=constrain( (distance-300)*2,-255,255);}
         
-         if(velo>vel+4) {
-            velo=vel+4;      //직진    
-         }
-         
-         if(velo<vel-4) {
-            velo=vel-4;      //후진
-         }
-      } else {
-        digitalWrite(6, LOW);
-
-        velo = analogRead(A0);
-        velo = constrain(velo / 4, -255, 255);
+         if(velo>vel+4)velo=vel+4;      //직진   
+        // if(velo<vel-4)velo=vel-4;      //후진
       }
+    
    } 
 
    vel=velo;
    analogWrite(10,velo);
    delay(10);
+
 
 }
