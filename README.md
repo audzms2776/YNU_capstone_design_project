@@ -103,3 +103,8 @@ void blinkLED() {
     digitalWrite(6, cnt < 15);   
 }
 ```
+
+* cruise_test
+자작 전기 자동차에 넣어서 테스트함 <br>
+악셀에 대해서 모터 굴리는거 가능 <br>
+pwm으로 모터 제어 <br>
